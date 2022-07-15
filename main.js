@@ -63,7 +63,7 @@ client.on('interactionCreate', async interaction => {
                 }
             })
             .catch(console.log("Error"));
-            // console.log(client.giveawaysManager);
+            console.log(client.giveawaysManager);
         } catch (e) {
             console.log(e);
         }
@@ -118,6 +118,7 @@ client.on('interactionCreate', async interaction => {
             client: client,
             interaction: interaction
         });
+        // interaction.reply("pong mf");
     }
 });
 
