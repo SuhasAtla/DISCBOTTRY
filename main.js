@@ -15,7 +15,7 @@ client.on('ready' , () => {
 });
 
 const manager = new GiveawaysManager(client, {
-    storage: './giveaways.json',
+    storage: './Giveaways.json',
     default: {
         botsCanWin: false,
         embedColor: '#FF0000',
