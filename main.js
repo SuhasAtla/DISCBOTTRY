@@ -41,6 +41,7 @@ client.on('interactionCreate', async interaction => {
                 winnerCount: numberResponse,
                 prize: nameResponse,
                 hostedBy : interaction.user,
+                inviteToParticipate: 'React with 🎉 to participate!',
                 
                 messages: {
                     giveaway: '🎉🎉 **GIVEAWAY** 🎉🎉',
@@ -69,16 +70,54 @@ client.on('interactionCreate', async interaction => {
         }
     }
 
-    if (interaction.commandName === 're') {
-        const messageId = interaction.options.getString('message_id');
-        client.giveawaysManager
-            .reroll(messageId)
+    if (interaction.customId === 'Second') {
+        try {
+            const msgIDResponse = interaction.fields.getTextInputValue('MID');
+            const WcResponse = parseInt(interaction.fields.getTextInputValue('ReWc'));
+            console.log(msgIDResponse)
+            client.giveawaysManager
+            .reroll(msgIDResponse, {
+                
+                WinnerCount: WcResponse,
+            })
             .then(() => {
                 interaction.reply('Success! Giveaway rerolled!');
             })
             .catch((err) => {
                 interaction.reply(`An error has occurred, please check and try again.\n\`${err}\``);
             });
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    if (interaction.commandName === 're') {
+
+        const modal1 = new Modal()
+			.setCustomId('Second')
+			.setTitle('Reroll');
+
+        const messageInput = new TextInputComponent()
+			.setCustomId('MID')
+			.setLabel("Enter the ID of the Giveaway to be rerolled")
+			.setStyle('SHORT')
+            .setPlaceholder('Message ID');
+
+        const ReWinnerInput = new TextInputComponent()
+			.setCustomId('ReWc')
+			.setLabel("Number of Winners to be Rerolled")
+			.setStyle('SHORT')
+            .setPlaceholder('Winners');
+
+        const firstActionRow1 = new MessageActionRow().addComponents(messageInput);    
+        const secondActionRow1 = new MessageActionRow().addComponents(ReWinnerInput);     
+        modal1.addComponents(firstActionRow1,secondActionRow1);
+
+        await interaction.showModal(modal1, {
+            client: client,
+            interaction: interaction
+        });
+        
     }
 
     if (interaction.commandName === 'ping') {
@@ -118,7 +157,6 @@ client.on('interactionCreate', async interaction => {
             client: client,
             interaction: interaction
         });
-        // interaction.reply("pong mf");
     }
 });
 
