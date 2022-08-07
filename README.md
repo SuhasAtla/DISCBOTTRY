@@ -1,2 +1,3 @@
-# DISCBOTTRY
- First bot
+# Giveaway Bot
+ Made for Ennuftea
+
